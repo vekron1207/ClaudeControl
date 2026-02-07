@@ -2,7 +2,7 @@
   "version": "1.0.0",
   "ntfy": {
     "server": "https://ntfy.sh",
-    "topic": "claude-varun-x7k9",
+    "topic": "claude-<enter_name>-x7k9",
     "priority": {
       "permission": 4,
       "notification": 3
