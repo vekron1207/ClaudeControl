@@ -1,0 +1,16 @@
+{
+  "version": "1.0.0",
+  "ntfy": {
+    "server": "https://ntfy.sh",
+    "topic": "claude-varun-x7k9",
+    "priority": {
+      "permission": 4,
+      "notification": 3
+    }
+  },
+  "bridge": {
+    "discovery_interval_seconds": 5,
+    "session_timeout_seconds": 300,
+    "registry_path": "./session_registry.json"
+  }
+}

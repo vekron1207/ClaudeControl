@@ -1,0 +1,23 @@
+﻿{
+    "sessions":  {
+                     "terminal-9244":  {
+                                           "session_id":  "terminal-9244",
+                                           "pid":  9244,
+                                           "process_name":  "WindowsTerminal",
+                                           "window_title":  "Claude Response Router",
+                                           "project_name":  "Response Router",
+                                           "last_seen":  "2026-02-08T02:19:42.3707661+05:30",
+                                           "status":  "active"
+                                       },
+                     "vscode-30536":  {
+                                          "session_id":  "vscode-30536",
+                                          "pid":  30536,
+                                          "process_name":  "Code",
+                                          "window_title":  "ClaudeSessionBridge.ps1 - ClaudeRemote - Visual Studio Code",
+                                          "project_name":  "ClaudeSessionBridge.ps1 - ClaudeRemote",
+                                          "last_seen":  "2026-02-08T02:19:42.3667676+05:30",
+                                          "status":  "active"
+                                      }
+                 },
+    "last_updated":  "2026-02-08T02:19:42.3747652+05:30"
+}
