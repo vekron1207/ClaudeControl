@@ -2,6 +2,10 @@
 
 Control multiple Claude Code sessions from your phone using push notifications.
 
+**⚡ TL;DR Setup:** Install ntfy app → Clone repo → Edit config.json → Run one PowerShell command → Restart VSCode → Double-click 2 bat files → Done! ([Jump to Quick Start](#-quick-start))
+
+---
+
 ## Overview
 
 This system allows you to:
@@ -44,6 +48,49 @@ Perfect for working remotely or monitoring long-running Claude tasks while away 
 3. **Your Phone** receives instant push notification with Allow/Deny buttons
 4. **Response Router** listens for your response and routes it to the correct session
 5. **Keystroke injection** automatically clicks Allow/Deny in the session window
+
+## 🚀 Quick Start
+
+### First Computer Setup (5 minutes)
+
+1. **Install ntfy app** on your phone ([Android](https://play.google.com/store/apps/details?id=io.heckel.ntfy) | [iOS](https://apps.apple.com/us/app/ntfy/id1625396347))
+   - Open app → Click "+" → Create topic: `claude-yourname-x7k9` (use random chars for security)
+
+2. **Clone this repo**
+   ```bash
+   git clone <repo-url> ClaudeRemote
+   cd ClaudeRemote
+   ```
+
+3. **Configure your ntfy topic**
+   - Edit `bridge/config.json`
+   - Change `"topic": "claude-varun-x7k9"` to YOUR topic from step 1
+
+4. **Install the hook** (run this PowerShell command):
+   ```powershell
+   $hookPath = "$(Get-Location)\hooks\permission_request.ps1"
+   $settings = @{ hooks = @{ PermissionRequest = @(@{ hooks = @(@{ command = "powershell -ExecutionPolicy Bypass -File `"$hookPath`""; type = "command" }) }) } }
+   $settings | ConvertTo-Json -Depth 10 | Set-Content "$env:USERPROFILE\.claude\settings.json" -Encoding UTF8
+   Write-Host "✓ Hook installed!" -ForegroundColor Green
+   ```
+
+5. **Restart VSCode completely** (close and reopen, not just reload)
+
+6. **Run the monitoring services** (keep both windows open):
+   - Double-click `Start_Bridge.bat`
+   - Double-click `Start_Router.bat`
+
+7. **Test it!** In VSCode, ask Claude to create a file. You'll get a notification on your phone!
+
+### Additional Computers (2 minutes)
+
+1. **Copy the ClaudeRemote folder** to the new computer
+2. **Install the hook** (same PowerShell command from step 4 above)
+3. **Restart VSCode**
+4. **Run the bat files** (`Start_Bridge.bat` + `Start_Router.bat`)
+5. **Done!** Same phone controls all computers
+
+> **Note:** Use the **same ntfy topic** across all computers - your phone will receive notifications from all of them!
 
 ## Prerequisites
 
@@ -180,38 +227,16 @@ This listens for responses from your phone and routes them to the correct sessio
 
 ## Setup on Additional Computers (e.g., Work Computer)
 
-### Quick Setup
+**TL;DR:** Copy folder → Install hook → Restart VSCode → Run bat files → Done!
 
-1. **Copy the entire ClaudeRemote folder** to your work computer (same location recommended)
+See the [Quick Start - Additional Computers](#-quick-start) section above for the 2-minute setup process.
 
-2. **Verify config.json** has your correct ntfy topic:
-   ```powershell
-   cat .\bridge\config.json
-   # Check that "topic" matches your phone subscription
-   ```
+### Important Notes
 
-3. **Install the hook** (same as Step 4 in First-Time Setup):
-   ```powershell
-   cd F:\Work\ClaudeRemote  # ← Update to your actual path
-
-   # Run the hook installation command from Step 4
-   ```
-
-4. **Restart VSCode** completely
-
-5. **Start monitoring services** (same as Step 5):
-   - Run `Start_Bridge.bat`
-   - Run `Start_Router.bat`
-
-6. **Test** the system (same as Step 6)
-
-### Path Differences
-
-If you install ClaudeRemote in a different location on your work computer:
-
-1. Update the hook installation command with the new path
-2. The hook script uses `$PSScriptRoot` so it will auto-detect its location
-3. No other code changes needed
+- **Use the same ntfy topic** - Don't change `bridge/config.json`, keep your existing topic
+- **Same phone, multiple computers** - Your phone receives notifications from all computers
+- **Portable paths** - The hook uses `$PSScriptRoot`, so it works anywhere you put the folder
+- **Different paths OK** - Just update the path in the hook installation command to match your actual location
 
 ## Usage
 
